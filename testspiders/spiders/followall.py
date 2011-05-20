@@ -10,8 +10,8 @@ class FollowAllSpider(BaseSpider):
     url = None
     item_cls = Page
 
-    def __init__(self, url=None):
-        super(FollowAllSpider, self).__init__()
+    def __init__(self, url=None, **kw):
+        super(FollowAllSpider, self).__init__(**kw)
         if not url:
             raise RuntimeError("Missing spider argument: url")
         self.url = url
