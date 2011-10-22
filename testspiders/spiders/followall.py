@@ -7,15 +7,15 @@ from testspiders.items import Page
 class FollowAllSpider(BaseSpider):
 
     name = 'followall'
-    url = None
     item_cls = Page
 
-    def __init__(self, url=None, **kw):
+    def __init__(self, **kw):
         super(FollowAllSpider, self).__init__(**kw)
-        if not url:
-            raise RuntimeError("Missing spider argument: url")
-        self.url = url
-        self.allowed_domains = [urlparse(url).hostname.lstrip('www.')]
+        if 'domain' in kw:
+            self.url = 'http://%s/' % kw['domain']
+        else:
+            self.url = kw.get('url', 'http://scrapinghub.com')
+        self.allowed_domains = [urlparse(self.url).hostname.lstrip('www.')]
         self.link_extractor = SgmlLinkExtractor()
         self.cookies_seen = set()
 
@@ -29,7 +29,7 @@ class FollowAllSpider(BaseSpider):
         return r
 
     def _get_item(self, response):
-        item = self.item_cls(url=response.url, size=len(response.body),
+        item = self.item_cls(url=response.url, size=str(len(response.body)),
             referer=response.request.headers.get('Referer'))
         self._set_new_cookies(item, response)
         return item
