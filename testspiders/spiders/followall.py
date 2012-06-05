@@ -11,11 +11,11 @@ class FollowAllSpider(BaseSpider):
 
     def __init__(self, **kw):
         super(FollowAllSpider, self).__init__(**kw)
-        if 'domain' in kw:
-            self.url = 'http://%s/' % kw['domain']
-        else:
-            self.url = kw.get('url', 'http://scrapinghub.com')
-        self.allowed_domains = [urlparse(self.url).hostname.lstrip('www.')]
+        url = kw.get('url') or kw.get('domain') or 'http://scrapinghub.com/'
+        if not url.startswith('http://') and not url.startswith('https://'):
+            url = 'http://%s/' % url
+        self.url = url
+        self.allowed_domains = [urlparse(url).hostname.lstrip('www.')]
         self.link_extractor = SgmlLinkExtractor()
         self.cookies_seen = set()
 
