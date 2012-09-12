@@ -1,9 +1,7 @@
 BOT_NAME = 'testspiders'
-BOT_VERSION = '1.0'
 
 SPIDER_MODULES = ['testspiders.spiders']
 NEWSPIDER_MODULE = 'testspiders.spiders'
-USER_AGENT = '%s/%s' % (BOT_NAME, BOT_VERSION)
 
 # some sane limits by default (override if needed)
 CLOSESPIDER_PAGECOUNT = 1000
