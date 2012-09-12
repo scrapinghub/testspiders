@@ -7,7 +7,6 @@ from testspiders.items import Page
 class FollowAllSpider(BaseSpider):
 
     name = 'followall'
-    item_cls = Page
 
     def __init__(self, **kw):
         super(FollowAllSpider, self).__init__(**kw)
@@ -29,7 +28,7 @@ class FollowAllSpider(BaseSpider):
         return r
 
     def _get_item(self, response):
-        item = self.item_cls(url=response.url, size=str(len(response.body)),
+        item = Page(url=response.url, size=str(len(response.body)),
             referer=response.request.headers.get('Referer'))
         self._set_new_cookies(item, response)
         return item
