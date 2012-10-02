@@ -1,6 +1,7 @@
 from urlparse import urlparse
 from scrapy.http import Request, HtmlResponse
 from scrapy.spider import BaseSpider
+from scrapy.selector import HtmlXPathSelector
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from testspiders.items import Page
 
@@ -30,6 +31,7 @@ class FollowAllSpider(BaseSpider):
     def _get_item(self, response):
         item = Page(url=response.url, size=str(len(response.body)),
             referer=response.request.headers.get('Referer'))
+        self._set_title(item, response)
         self._set_new_cookies(item, response)
         return item
 
@@ -39,6 +41,12 @@ class FollowAllSpider(BaseSpider):
             links = self.link_extractor.extract_links(response)
             r.extend(Request(x.url, callback=self.parse) for x in links)
         return r
+
+    def _set_title(self, page, response):
+        if isinstance(response, HtmlResponse):
+            title = HtmlXPathSelector(response).select("//title/text()").extract()
+            if title:
+                page['title'] = title[0]
 
     def _set_new_cookies(self, page, response):
         cookies = []
