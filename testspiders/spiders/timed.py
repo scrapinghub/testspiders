@@ -10,9 +10,9 @@ class TimedSpider(FollowAllSpider):
     name = 'timed'
     url = None
 
-    def __init__(self, url=None, timeout=60):
-        super(TimedSpider, self).__init__(url)
-        self.timeout = int(timeout)
+    def __init__(self, **kw):
+        self.timeout = int(kw.pop('timeout', '60'))
+        super(TimedSpider, self).__init__(**kw)
 
     def start_requests(self):
         reactor.callLater(self.timeout, self.stop)
