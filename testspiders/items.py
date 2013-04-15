@@ -6,4 +6,5 @@ class Page(Item):
     size = Field()
     referer = Field()
     newcookies = Field()
+    body = Field()
 
