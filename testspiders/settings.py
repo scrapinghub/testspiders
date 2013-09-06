@@ -12,6 +12,7 @@ COOKIES_ENABLED = False
 
 DOWNLOADER_MIDDLEWARES = {
     'testspiders.middleware.RandomUserAgent': 1,
+    'testspiders.middleware.ErrorMonkeyMiddleware': 2,
 }
 
 USER_AGENTS = [
