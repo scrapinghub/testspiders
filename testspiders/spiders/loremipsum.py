@@ -47,7 +47,7 @@ class LoremipsumSpider(BaseSpider):
         yield Page(url=response.url, title=LOREMIPSUM[:20], body=LOREMIPSUM)
         if self.loremfile:
             url = 'file://{0}?x-error-response'.format(self.loremfile.name)
-            yield Request(url, callback=self.parse, errback=self.error)
+            yield Request(url, callback=self.parse, errback=self.recover)
 
-    def error(self, failure):
+    def recover(self, failure):
         raise ValueError('hoho')
