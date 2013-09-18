@@ -26,6 +26,7 @@ fiant sollemnes in futurum.'''
 
 class LoremipsumSpider(BaseSpider):
     name = "loremipsum"
+    loremfile = None
 
     def start_requests(self):
         self.loremfile = tempfile.NamedTemporaryFile()
@@ -33,8 +34,20 @@ class LoremipsumSpider(BaseSpider):
         yield Request('file://{0}'.format(self.loremfile.name))
 
     def parse(self, response):
+        """Extract lorem ipsum text
+
+        @url http://es.lipsum.com/
+        @returns items 1 1
+        @scrapes url title body
+        """
         self.log(LOREMIPSUM[:30], level=log.DEBUG)
         self.log(LOREMIPSUM[30:60], level=log.INFO)
         self.log(LOREMIPSUM[60:90], level=log.WARNING)
         self.log(LOREMIPSUM[90:120], level=log.ERROR)
         yield Page(url=response.url, title=LOREMIPSUM[:20], body=LOREMIPSUM)
+        if self.loremfile:
+            url = 'file://{0}?x-error-response'.format(self.loremfile.name)
+            yield Request(url, callback=self.parse, errback=self.error)
+
+    def error(self, failure):
+        raise ValueError('hoho')

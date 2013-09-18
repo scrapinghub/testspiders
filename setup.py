@@ -5,4 +5,5 @@ setup(
     version      = '1.0',
     packages     = find_packages(),
     entry_points = {'scrapy': ['settings = testspiders.settings']},
+    scripts = ['bin/testargs.py']
 )

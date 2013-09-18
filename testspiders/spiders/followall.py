@@ -23,6 +23,13 @@ class FollowAllSpider(BaseSpider):
         return [Request(self.url, callback=self.parse)]
 
     def parse(self, response):
+        """Parse a PageItem and all requests to follow
+
+        @url http://www.scrapinghub.com/
+        @returns items 1 1
+        @returns requests 1
+        @scrapes url title foo
+        """
         page = self._get_item(response)
         r = [page]
         r.extend(self._extract_requests(response))
