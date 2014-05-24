@@ -1,6 +1,6 @@
-from scrapy.spider import BaseSpider
+from scrapy.spider import Spider
 
-class DummySpider(BaseSpider):
+class DummySpider(Spider):
     name = "dummy"
     allowed_domains = ["example.com", "iana.org"]
     start_urls = (

@@ -1,11 +1,11 @@
 from urlparse import urlparse
 from scrapy.http import Request, HtmlResponse
-from scrapy.spider import BaseSpider
-from scrapy.selector import HtmlXPathSelector
+from scrapy.spider import Spider
+from scrapy.selector import Selector
 from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
 from testspiders.items import Page
 
-class FollowAllSpider(BaseSpider):
+class FollowAllSpider(Spider):
 
     name = 'followall'
 
@@ -51,7 +51,7 @@ class FollowAllSpider(BaseSpider):
 
     def _set_title(self, page, response):
         if isinstance(response, HtmlResponse):
-            title = HtmlXPathSelector(response).select("//title/text()").extract()
+            title = Selector(response).xpath("//title/text()").extract()
             if title:
                 page['title'] = title[0]
 

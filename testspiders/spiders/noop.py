@@ -1,6 +1,6 @@
-from scrapy.spider import BaseSpider
+from scrapy.spider import Spider
 
-class NoopSpider(BaseSpider):
+class NoopSpider(Spider):
     name = "noop"
 
     def parse(self, response):
