@@ -1,7 +1,7 @@
 import tempfile
 from scrapy import log
 from scrapy.http import Request
-from scrapy.spider import BaseSpider
+from scrapy.spider import Spider
 from testspiders.items import Page
 
 
@@ -24,7 +24,7 @@ decima et quinta decima. Eodem modo typi, qui nunc nobis videntur parum clari,
 fiant sollemnes in futurum.'''
 
 
-class LoremipsumSpider(BaseSpider):
+class LoremipsumSpider(Spider):
     name = "loremipsum"
     loremfile = None
 
