@@ -1,2 +1,2 @@
-pyOpenSSL==0.13.1
 Scrapy
+service_identity==1.0.0
