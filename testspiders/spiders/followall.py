@@ -20,7 +20,7 @@ class FollowAllSpider(Spider):
         self.cookies_seen = set()
 
     def start_requests(self):
-        return [Request(self.url, callback=self.parse)]
+        return [Request(self.url, callback=self.parse, dont_filter=True)]
 
     def parse(self, response):
         """Parse a PageItem and all requests to follow
