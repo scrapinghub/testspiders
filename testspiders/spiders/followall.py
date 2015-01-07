@@ -2,7 +2,7 @@ from urlparse import urlparse
 from scrapy.http import Request, HtmlResponse
 from scrapy.spider import Spider
 from scrapy.selector import Selector
-from scrapy.contrib.linkextractors.sgml import SgmlLinkExtractor
+from scrapy.contrib.linkextractors import LinkExtractor
 from testspiders.items import Page
 
 class FollowAllSpider(Spider):
@@ -16,7 +16,7 @@ class FollowAllSpider(Spider):
             url = 'http://%s/' % url
         self.url = url
         self.allowed_domains = [urlparse(url).hostname.lstrip('www.')]
-        self.link_extractor = SgmlLinkExtractor()
+        self.link_extractor = LinkExtractor()
         self.cookies_seen = set()
 
     def start_requests(self):
