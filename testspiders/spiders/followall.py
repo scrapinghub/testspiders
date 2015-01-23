@@ -16,7 +16,7 @@ class FollowAllSpider(Spider):
         if not url.startswith('http://') and not url.startswith('https://'):
             url = 'http://%s/' % url
         self.url = url
-        self.allowed_domains = [re.sub(r'^www\.','',urlparse(url).hostname)]
+        self.allowed_domains = [re.sub(r'^www\.', '', urlparse(url).hostname)]
         self.link_extractor = LinkExtractor()
         self.cookies_seen = set()
 
