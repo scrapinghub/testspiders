@@ -1,10 +1,10 @@
-from scrapy.item import Item, Field
+import scrapy
 
-class Page(Item):
-    url = Field()
-    title = Field()
-    size = Field()
-    referer = Field()
-    newcookies = Field()
-    body = Field()
 
+class Page(scrapy.Item):
+    url = scrapy.Field()
+    title = scrapy.Field()
+    size = scrapy.Field()
+    referer = scrapy.Field()
+    newcookies = scrapy.Field()
+    body = scrapy.Field()

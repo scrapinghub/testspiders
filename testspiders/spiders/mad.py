@@ -3,7 +3,7 @@ Spider that blocks, logs a warning and raises an error randomly
 """
 import time
 import random
-from scrapy import log
+import logging
 from testspiders.spiders.followall import FollowAllSpider
 
 
@@ -20,9 +20,8 @@ class MadSpider(FollowAllSpider):
 
         # simulate warnings and errors
         if timeout % 3:
-            self.log("something happened", level=log.WARNING)
+            self.log("something happened", level=logging.WARNING)
         else:
             raise Exception("something bad happened")
 
         return super(MadSpider, self)._get_item(response)
-

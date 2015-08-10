@@ -1,12 +1,14 @@
 import re
-from urlparse import urlparse
+from six.moves.urllib.parse import urlparse
+
+import scrapy
 from scrapy.http import Request, HtmlResponse
-from scrapy.spider import Spider
-from scrapy.selector import Selector
-from scrapy.contrib.linkextractors import LinkExtractor
+from scrapy.linkextractors import LinkExtractor
+
 from testspiders.items import Page
 
-class FollowAllSpider(Spider):
+
+class FollowAllSpider(scrapy.Spider):
 
     name = 'followall'
 
@@ -37,8 +39,11 @@ class FollowAllSpider(Spider):
         return r
 
     def _get_item(self, response):
-        item = Page(url=response.url, size=str(len(response.body)),
-            referer=response.request.headers.get('Referer'))
+        item = Page(
+            url=response.url,
+            size=str(len(response.body)),
+            referer=response.request.headers.get('Referer'),
+        )
         self._set_title(item, response)
         self._set_new_cookies(item, response)
         return item
@@ -52,13 +57,14 @@ class FollowAllSpider(Spider):
 
     def _set_title(self, page, response):
         if isinstance(response, HtmlResponse):
-            title = Selector(response).xpath("//title/text()").extract()
+            title = response.xpath("//title/text()").extract()
             if title:
                 page['title'] = title[0]
 
     def _set_new_cookies(self, page, response):
         cookies = []
-        for cookie in [x.split(';', 1)[0] for x in response.headers.getlist('Set-Cookie')]:
+        for cookie in [x.split(';', 1)[0] for x in
+                       response.headers.getlist('Set-Cookie')]:
             if cookie not in self.cookies_seen:
                 self.cookies_seen.add(cookie)
                 cookies.append(cookie)
