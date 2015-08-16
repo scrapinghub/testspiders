@@ -17,7 +17,7 @@ class LocalInfo(scrapy.Spider):
         item = {
             '__file__': __file__,
             '__name__': __name__,
-            'cwd': os.path.curdir,
+            'cwd': os.path.abspath(os.path.curdir),
             'tmpdir': tempfile.gettempdir(),
         }
         item.update(_versions())
