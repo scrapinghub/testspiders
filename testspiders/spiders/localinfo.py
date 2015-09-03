@@ -20,8 +20,8 @@ class LocalInfo(scrapy.Spider):
             'cwd': os.path.abspath(os.path.curdir),
             'tmpdir': tempfile.gettempdir(),
         }
-        item.update(_versions())
-        item.update(os.environ)
+        item['versions'] = _versions()
+        item['environ'] = os.environ.copy()
         return item
 
 
