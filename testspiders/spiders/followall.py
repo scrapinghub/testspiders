@@ -63,7 +63,7 @@ class FollowAllSpider(scrapy.Spider):
 
     def _set_new_cookies(self, page, response):
         cookies = []
-        for cookie in [x.split(';', 1)[0] for x in
+        for cookie in [x.split(b';', 1)[0] for x in
                        response.headers.getlist('Set-Cookie')]:
             if cookie not in self.cookies_seen:
                 self.cookies_seen.add(cookie)
