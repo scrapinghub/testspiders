@@ -34,7 +34,7 @@ class BrokenLink(scrapy.Spider):
         if not isinstance(response, scrapy.http.TextResponse):
             self.crawler.stats.inc_value('binary_response')
             return
-        if response.status >= 400 and response.status <= 500:
+        if response.status >= 400 and response.status <= 599:
             item = BrokenLinkDetectorItem()
             item['url'] = response.url
             item['status'] = response.status
