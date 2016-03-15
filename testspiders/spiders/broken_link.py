@@ -4,12 +4,16 @@ import urlparse
 import scrapy
 
 
-class BrokenLinkDetectorItem(scrapy.Item):
-    url = scrapy.Field()
-    status = scrapy.Field()
-
-
 class BrokenLink(scrapy.Spider):
+    """
+    Spider arguments:
+    - input_url: Where to start the crawl with.
+    - allowed_domains (optional): Comma-separated list of domains to restrict the crawl with. If not specified, it would be inferred from the input URL, e.g. https://intranet.scrapinghub.com/issues/57161 -> intranet.scrapinghub.com
+
+    Settings:
+    - DEPTH_LIMIT: Controls the maximum depth (defaults to 50).
+    - MAX_REQUESTS: Controls the maximum requests (defaults to 100000). The actual number of requests may be slightly different, e.g. MAX_REQUESTS=1000 and the spider stops when having sent 1008 requests.
+    """
     name = 'broken_link'
     custom_settings = {
         'HTTPERROR_ALLOW_ALL': True,
@@ -35,10 +39,10 @@ class BrokenLink(scrapy.Spider):
             self.crawler.stats.inc_value('binary_response')
             return
         if response.status >= 400 and response.status <= 599:
-            item = BrokenLinkDetectorItem()
-            item['url'] = response.url
-            item['status'] = response.status
-            yield item
+            yield {
+                'url': response.url,
+                'status': response.status,
+            }
         max_reqs = self.settings.getint('MAX_REQUESTS', 0)
         stats = self.crawler.stats
         for href in response.css('a::attr(href)').extract():
