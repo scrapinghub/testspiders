@@ -8,7 +8,7 @@ class BrokenLink(scrapy.Spider):
     """
     Spider arguments:
     - input_url: Where to start the crawl with.
-    - allowed_domains (optional): Comma-separated list of domains to restrict the crawl with. If not specified, it would be inferred from the input URL, e.g. https://intranet.scrapinghub.com/issues/57161 -> intranet.scrapinghub.com
+    - allowed_domains (optional): Comma-separated list of domains to restrict the crawl with. If not specified, it would be inferred from the input URL, e.g. http://doc.scrapy.org/en/latest/intro/overview.html -> doc.scrapy.org
 
     Settings:
     - DEPTH_LIMIT: Controls the maximum depth (defaults to 50).
@@ -33,15 +33,27 @@ class BrokenLink(scrapy.Spider):
             domain = netloc.split('@')[-1].split(':')[0]
             self.allowed_domains = [domain]
 
+    def start_requests(self):
+        """Generates initial requests"""
+        for url in self.start_urls:
+            # Explicitly set the errback handler
+            yield scrapy.Request(
+                url,
+                dont_filter=True,
+                callback=self.parse,
+                errback=self.errback
+            )
+
     def parse(self, response):
         """Parses a default response"""
         if not isinstance(response, scrapy.http.TextResponse):
-            self.crawler.stats.inc_value('binary_response')
+            self.crawler.stats.inc_value('non_text_response')
             return
         if response.status >= 400 and response.status <= 599:
             yield {
                 'url': response.url,
-                'status': response.status,
+                'status': 'invalid_http_status',
+                'http_status': response.status,
             }
         max_reqs = self.settings.getint('MAX_REQUESTS', 0)
         stats = self.crawler.stats
@@ -49,5 +61,15 @@ class BrokenLink(scrapy.Spider):
             if max_reqs and max_reqs < stats.get_value('scheduler/enqueued'):
                 break
             yield scrapy.Request(
-                response.urljoin(href)
+                response.urljoin(href),
+                callback=self.parse,
+                errback=self.errback
             )
+
+    def errback(self, err):
+        """Handles an error"""
+        return {
+            'url': err.request.url,
+            'status': 'error_downloading_http_response',
+            'message': str(err.value),
+        }
