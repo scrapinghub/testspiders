@@ -33,7 +33,7 @@ class BrokenLink(scrapy.Spider):
         if allowed_domains:
             self.allowed_domains = allowed_domains.split(',')
         else:
-            netloc = urlparse.urlparse(input_url).netloc
+            netloc = urlparse(input_url).netloc
             domain = netloc.split('@')[-1].split(':')[0]
             self.allowed_domains = [domain]
 
