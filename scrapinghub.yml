@@ -1,0 +1,12 @@
+projects:
+  default:
+    id: 18255
+    stack: scrapy:1.2
+  oldscrapy:
+    id: 18255
+    stack: scrapy:1.0
+  defstack:
+    id: 18255
+  simple: 18255
+requirements:
+  file: test-reqs.txt
