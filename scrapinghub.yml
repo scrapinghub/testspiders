@@ -8,5 +8,8 @@ projects:
   defstack:
     id: 18255
   simple: 18255
+  custom:
+    id: 18255
+    image: true
 requirements:
   file: test-reqs.txt
