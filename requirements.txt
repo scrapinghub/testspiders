@@ -1,3 +1,1 @@
-Scrapy>=1.0.2
 service_identity
-scrapinghub-entrypoint-scrapy
