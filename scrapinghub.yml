@@ -13,3 +13,5 @@ projects:
     image: true
 requirements:
   file: test-reqs.txt
+stacks:
+  default: scrapy:1.4
