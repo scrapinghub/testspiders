@@ -11,7 +11,9 @@ projects:
   custom:
     id: 18255
     image: true
-  test: 109161
+  test:
+    id: 109161
+    stack: scrapy:1.4-py3
 requirements:
   file: test-reqs.txt
 stacks:
