@@ -11,6 +11,7 @@ projects:
   custom:
     id: 18255
     image: true
+  test: 109161
 requirements:
   file: test-reqs.txt
 stacks:
