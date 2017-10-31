@@ -1,5 +1,7 @@
-FROM scrapinghub/base:12.04
+FROM scrapinghub/scrapinghub-stack-scrapy:1.4
 WORKDIR /app
-ADD requirements.txt /app/requirements.txt
+COPY requirements.txt /app/requirements.txt
 RUN pip install -r /app/requirements.txt
-ADD . /app
+ENV SCRAPY_SETTINGS_MODULE testspiders.settings
+COPY . /app
+RUN python setup.py install
