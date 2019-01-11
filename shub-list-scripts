@@ -1,2 +1,20 @@
-#!/bin/bash
-ls -1 /app/bin/
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+import os
+import json
+
+SCRIPTS_LOCATION = '/app/bin'
+
+def main():
+    scripts = [
+        script for script in os.listdir(SCRIPTS_LOCATION)
+        if os.path.isfile(os.path.join(SCRIPTS_LOCATION, script))
+    ]
+    obj = {'scripts': scripts}
+    print(json.dumps(obj))
+
+
+if __name__ == '__main__':
+    main()
+
