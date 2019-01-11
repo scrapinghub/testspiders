@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -l bin/ | sed -e 's/^/py:/;'
+ls -1 bin/ | sed -e 's/^/py:/;'
