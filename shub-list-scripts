@@ -1,2 +1,2 @@
 #!/bin/bash
-ls -1 /app/bin/ | sed -e 's/^/py:/;'
+ls -1 /app/bin/
