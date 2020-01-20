@@ -1,5 +1,4 @@
 import scrapy
-from twisted.internet import reactor, defer
 
 
 class Spider(scrapy.Spider):
@@ -11,6 +10,7 @@ class Spider(scrapy.Spider):
         super(Spider, self).__init__(**kw)
 
     def parse(self, response):
+        from twisted.internet import reactor, defer
         self.log('I will waste your time for {} seconds'.format(self.timeout))
         dfd = defer.Deferred()
         reactor.callLater(self.timeout, dfd.callback, None)
